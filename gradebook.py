@@ -3,7 +3,6 @@ from uuid import uuid4
 
 
 class AliveStatus(Enum):
-
     DECEASED = 0
     ALIVE = 1
 
@@ -14,7 +13,7 @@ class Person:
         self.first_name = first_name
         self.last_name = last_name
         self.dob = birth_date
-        self.alive = AliveStatus(1)
+        self.alive = AliveStatus.ALIVE
 
     def update_first_name(self, name_to_use: str):
         self.first_name = name_to_use
@@ -25,7 +24,7 @@ class Person:
     def update_dob(self, birth_date):
         self.dob = birth_date
 
-    def update_status(self, alive_status):
+    def update_status(self, alive_status: AliveStatus):
         self.alive = alive_status
 
 
