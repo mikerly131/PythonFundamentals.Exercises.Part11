@@ -66,13 +66,13 @@ class Classroom:
         self.instructors.append(instructor_id)
 
     def remove_instructor(self, instructor_id):
-        self.instructors.pop(instructor_id)
+        self.instructors.remove(instructor_id)
 
     def add_student(self, student_id):
         self.students.append(student_id)
 
     def remove_student(self, student_id):
-        self.students.pop(student_id)
+        self.students.remove(student_id)
 
     def print_instructors(self):
         print(f'The instructors for {self} are: ')

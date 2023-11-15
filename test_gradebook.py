@@ -1,5 +1,7 @@
 import unittest
 import gradebook
+import io
+import unittest.mock
 
 
 class TestGradebookPerson(unittest.TestCase):
@@ -53,27 +55,56 @@ class TestGradebookPerson(unittest.TestCase):
 
 class TestClassRoom(unittest.TestCase):
 
-    def test_add_instructor(self, instructor_id):
-        self.instructors.append(instructor_id)
+    def setUp(self):
+        self.test_classroom = gradebook.Classroom()
+        self.test_person3 = gradebook.Student('Bob', 'Jones', '2/23/2002')
+        self.test_person4 = gradebook.Instructor('Jen', 'Lupin', '9/23/1984')
+        self. test_person5 = gradebook.Instructor('Larry', 'Trailmix', '3/18/1968')
+        self.test_person6 = gradebook.Student('Chelsea', 'Ladyperson', '12/23/1992')
 
-    def test_remove_instructor(self, instructor_id):
-        self.instructors.pop(instructor_id)
+    def test_add_instructor(self):
+        expected = self.test_person4.instructor_id
+        self.test_classroom.add_instructor(expected)
+        actual = self.test_classroom.instructors[0]
+        self.assertEqual(expected, actual)  # add assertion here
 
-    def add_student(self, student_id):
-        self.students.append(student_id)
+    def test_remove_instructor(self):
+        expected = self.test_person5.instructor_id
+        test_ins = self.test_person4.instructor_id
+        self.test_classroom.add_instructor(test_ins)
+        self.test_classroom.add_instructor(expected)
+        self.test_classroom.remove_instructor(test_ins)
+        actual = self.test_classroom.instructors[0]
+        self.assertEqual(expected, actual)  # add assertion here
 
-    def remove_student(self, student_id):
-        self.students.pop(student_id)
+    def test_add_student(self):
+        expected = self.test_person3.student_id
+        self.test_classroom.add_student(expected)
+        actual = self.test_classroom.students[0]
+        self.assertEqual(expected, actual)  # add assertion here
 
-    def print_instructors(self):
-        print(f'The instructors for {self} are: ')
-        for instructor in self.instructors:
-            print(f'Instructor: {instructor.first_name} {instructor.last_name}')
+    def test_remove_student(self):
+        expected = self.test_person3.student_id
+        test_stu = self.test_person6.student_id
+        self.test_classroom.add_student(test_stu)
+        self.test_classroom.add_student(expected)
+        self.test_classroom.remove_student(test_stu)
+        actual = self.test_classroom.students[0]
+        self.assertEqual(expected, actual)  # add assertion here
 
-    def print_students(self):
-        print(f'The students for {self} are: ')
-        for student in self.students:
-            print(f'Student: {student.first_name} {student.last_name}')
+    @unittest.mock.patch('sys.stdout', new_callable=io.StringIO)
+    def test_print_instructors(self, mock_stdout):
+        self.test_classroom.add_instructor(self.test_person4.instructor_id)
+        self.test_classroom.add_instructor(self.test_person5.instructor_id)
+        expected = 'The instructors for <gradebook.Classroom object at 0x1010d10a0> are: \nInstructor: Jen Lupin\nInstructor: Larry Trailmix\n'
+        self.test_classroom.print_instructors()
+        self.assertEqual(expected, mock_stdout.getvalue())
+
+
+
+    def test_print_students(self):
+        expected = 'The students for test_classroom are: \nStudent: Bob Jones\n'
+
 
 
 if __name__ == '__main__':
