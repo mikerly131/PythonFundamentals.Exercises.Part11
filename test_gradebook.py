@@ -1,6 +1,7 @@
 import unittest
 import gradebook
 
+
 class TestGradebookPerson(unittest.TestCase):
 
     def setUp(self):
@@ -26,9 +27,27 @@ class TestGradebookPerson(unittest.TestCase):
         self.assertEqual(expected, actual)  # add assertion here
 
     def test_update_status(self):
-        expected = gradebook.AliveStatus.DECEASED
-        self.test_person2.update_status(gradebook.AliveStatus.DECEASED)
+        expected = "DECEASED"
+        self.test_person2.update_status("DECEASED")
         actual = self.test_person2.alive
+        self.assertEqual(expected, actual)  # add assertion here
+
+    def test_update_status2(self):
+        expected = "ALIVE"
+        self.test_person2.update_status("ALIVE")
+        actual = self.test_person2.alive
+        self.assertEqual(expected, actual)  # add assertion here
+
+    def test_update_status3(self):
+        expected = gradebook.AliveStatus.DECEASED
+        self.test_person1.update_status(gradebook.AliveStatus.DECEASED)
+        actual = self.test_person1.alive
+        self.assertEqual(expected, actual)  # add assertion here
+
+    def test_update_status4(self):
+        expected = gradebook.AliveStatus.ALIVE.name
+        self.test_person1.update_status("ALIVE")
+        actual = self.test_person1.alive
         self.assertEqual(expected, actual)  # add assertion here
 
 
